@@ -7,7 +7,7 @@ router.post("/login", login);
 router.post("/register", register);
 router.put("/change-password", changePassword);
 router.put("/change-profile", changeProfile);
-router.get("/profile", profile);
+router.get("/profile/:id", profile);
 router.get("/liked-articles", likedArticles);
 
 module.exports = router;

@@ -1,7 +1,7 @@
-const Article = require('./../models/m_articles');
+// const Article = require('./../models/articles/m_articles');
 const jwt = require('jsonwebtoken');
 const env = require('dotenv');
-const {res_error, res_success} = require('./../res_validate')
+const {res_error, res_success} = require('./../response')
 env.config();
 
 const getAllArticles = () => {
