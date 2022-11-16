@@ -1,4 +1,4 @@
-// const Article = require('./../models/articles/m_articles');
+const Article = require('./../models/articles/m_articles');
 const jwt = require('jsonwebtoken');
 const env = require('dotenv');
 const {res_error, res_success} = require('./../response')
@@ -31,38 +31,38 @@ const getAllArticles = async (req, res) => {
     }
 }
 
-const getArticleById = () => {
+const getArticleById = async (req, res) => {
     
 }
 
-const likedArticleById = () => {
+const likedArticleById = async (req, res) => {
     
 }
 
-const changeArticleById = () => {
+const changeArticleById = async (req, res) => {
     
 }
 
-const commentArticleById = () => {
+const commentArticleById = async (req, res) => {
     
 }
 
-const storeArticle = () => {
+const storeArticle = async (req, res) => {
         // nanti kamu benahi, aku cuman ngecheck jwt nya bisa apa enggak
-    try {
-        res.send("sukses")
-    } catch (error) {
-        if(error){
-            res.send("Gagal")
+        try {
+            
+        } catch (error) {
+            if(error){
+                res.send("kesalahan server")
+            }
         }
-    }
 }
 
-const deleteArticleById = () => {
+const deleteArticleById = async (req, res) => {
     
 }
 
-const deleteAllArticle = () => {
+const deleteAllArticle = async (req, res) => {
     
 }
 
