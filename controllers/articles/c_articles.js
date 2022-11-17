@@ -1,6 +1,6 @@
-const Article = require('./../models/articles/m_articles');
-const {res_error, res_success} = require('./../response')
-const {auth, token, user} = require('./validasi')
+const Article = require('../../models/articles/m_articles');
+const {res_error, res_success} = require('../../response')
+const {auth, token, user} = require('../validasi')
 
 const getAllArticles = async (req, res) => {
     // nanti kamu benahi, aku cuman ngecheck jwt nya bisa apa enggak
@@ -17,15 +17,7 @@ const getArticleById = async (req, res) => {
     
 }
 
-const likedArticleById = async (req, res) => {
-    
-}
-
 const changeArticleById = async (req, res) => {
-    
-}
-
-const commentArticleById = async (req, res) => {
     
 }
 
@@ -51,4 +43,4 @@ const deleteAllArticle = async (req, res) => {
     
 }
 
-module.exports = {getAllArticles, getArticleById, likedArticleById, changeArticleById, commentArticleById, storeArticle, deleteArticleById, deleteAllArticle}
+module.exports = {getAllArticles, getArticleById, changeArticleById, storeArticle, deleteArticleById, deleteAllArticle}

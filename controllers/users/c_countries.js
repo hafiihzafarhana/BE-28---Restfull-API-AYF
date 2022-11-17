@@ -1,7 +1,7 @@
-const Country = require('./../models/users/m_countries');
+const Country = require('../../models/users/m_countries');
 const jwt = require('jsonwebtoken');
 const env = require('dotenv');
-const {res_error, res_success} = require('./../response')
+const {res_error, res_success} = require('../../response')
 env.config();
 
 const getAllCountries = async (req, res) => {

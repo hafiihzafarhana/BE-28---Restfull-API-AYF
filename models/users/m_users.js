@@ -36,6 +36,11 @@ const UserSchema = mongoose.Schema({
       ref:"Country",
       required:true
    },
+   gender:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"Gender",
+      required:true
+   },
    email:{
       type:String,
       required:true

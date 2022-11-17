@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const {getAllCountries, getCountryById, changeCountryById, storeCountry, deleteCountryById, deleteAllcounties} = require('./../controllers/c_countries')
+const {getAllCountries, getCountryById, changeCountryById, storeCountry, deleteCountryById, deleteAllcounties} = require('../../controllers/users/c_countries')
 
 router.get("/", getAllCountries);
 router.get("/:id", getCountryById);

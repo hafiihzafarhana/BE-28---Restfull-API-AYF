@@ -1,7 +1,7 @@
-const Role = require('./../models/users/m_roles');
+const Role = require('../../models/users/m_roles');
 const jwt = require('jsonwebtoken');
 const env = require('dotenv');
-const {res_error, res_success} = require('./../response')
+const {res_error, res_success} = require('../../response')
 env.config();
 
 const getAllRoles = async (req, res) => {
