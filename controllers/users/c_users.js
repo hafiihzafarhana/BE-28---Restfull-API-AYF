@@ -18,6 +18,7 @@ const login = async (req, res) => {
             return res_success(res, 200, "200 OK", "You was login", token)
         }
 
+        return res_error(res, 400, "400 Bad Request", "Your username or password is invalid")
     } catch (error) {
         if(error) res_error(res, 500, "500 Internal Server Error", error.message)
     }
@@ -72,6 +73,7 @@ const changeProfile = async (req, res) => {
 
 const profile = async (req, res) => {
     try {
+
         const _idUser = req.user.user._id
         await User.findOne({"_id":_idUser}, (err, result) => {
             if(err) return res_error(res, 400, "400 Bad Request", err.message)
@@ -84,4 +86,23 @@ const profile = async (req, res) => {
     }
 }
 
-module.exports = {login, register, changePassword, changeProfile, profile};
+const changeRole = async (req, res) => {
+    try {
+        const {role} = req.body;
+        const _idYangDituju = req.params.id
+        const _idUser = req.user.user._id
+        const isAdmin = await User.findOne({"_id":_idUser})
+        
+        if(isAdmin.role != "63768bc8eceebff9eda8e878" || isAdmin.role == null) res_error(res, 403, "403 Forbidden", err.message);
+
+        await User.updateOne({"_id":_idYangDituju}, {$set:{"role":role}}, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", err.message);
+
+            return res_success(res, 200, "200 OK", "User role was updated")
+        }).clone().catch(err => console.log(err))
+    } catch (error) {
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
+    }
+}
+
+module.exports = {login, register, changePassword, changeProfile, profile, changeRole};

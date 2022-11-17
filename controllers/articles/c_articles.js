@@ -1,6 +1,5 @@
 const Article = require('../../models/articles/m_articles');
 const {res_error, res_success} = require('../../response')
-const {auth, token, user} = require('../validasi')
 
 const getAllArticles = async (req, res) => {
     // nanti kamu benahi, aku cuman ngecheck jwt nya bisa apa enggak
@@ -22,16 +21,16 @@ const changeArticleById = async (req, res) => {
 }
 
 const storeArticle = async (req, res) => {
-        // nanti kamu benahi, aku cuman ngecheck jwt nya bisa apa enggak
         try {
             const {author, title, image, likes, content, slug, comments, category} = req.body
-            Article.create({author, title, image, likes, content, slug, comments, category})
-            .then(() => res.send("Berhasil ditambahkan"))
-            .catch(() => res.send("gagal ditambahkan"))
+            if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", err.message);
+            Article.create({author, title, image, likes, content, slug, comments, category}, (err, result) => {
+                if(err) return res_error(res, 400, "400 Bad Request", err.message)
+    
+                return res_success(res, 201, "201 Created", "Your was post a article")
+            })
         } catch (error) {
-            if(error){
-                res.send("kesalahan server")
-            }
+            if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
         }
 }
 
