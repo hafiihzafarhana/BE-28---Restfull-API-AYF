@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const {getAllRoles, getRoleById, changeRoleById, storeRole, deleteRoleById, deleteAllRoles} = require('./../controllers/c_roles')
+const {getAllRoles, getRoleById, changeRoleById, storeRole, deleteRoleById, deleteAllRoles} = require('../../controllers/users/c_roles')
 
 router.get("/", getAllRoles);
 router.get("/:id", getRoleById);
