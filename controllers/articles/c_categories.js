@@ -1,16 +1,15 @@
 const Category = require('../../models/articles/m_categories');
-const jwt = require('jsonwebtoken');
-const env = require('dotenv');
 const {res_error, res_success} = require('../../response')
-env.config();
 
 const getAllCategories = async (req, res) => {
     try {
         await Category.find({}, (err, result) => {
-            res.json({result})
-        })
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+            
+            return res_success(res, 200, "200 OK", "Datas Categories", result)
+        }).clone().catch(err => console.log(err))
     } catch (error) {
-        
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
     }
 }
 
@@ -18,10 +17,12 @@ const getCategoryById = async (req, res) => {
     try {
         const _idCategory = req.params.id;
         await Category.findOne({"_id":_idCategory}, (err, result) => {
-            res.json({result})
-        })
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+            
+            return res_success(res, 200, "200 OK", "Datas Categories", result)
+        }).clone().catch(err => console.log(err))
     } catch (error) {
-        
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
     }
 }
 
@@ -29,57 +30,57 @@ const changeCategoryById = async (req, res) => {
     try {
         const _idCategory = req.params.id;
         const {category} = req.body;
-        console
+        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", err.message);
         await Category.updateOne({"_id":_idCategory}, {$set:{"category":category}}, (err, result) => {
-            res.json("Berhasil Ganti")
-        })
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+
+            return res_success(res, 200, "200 OK", "Category name was changed")
+        }).clone().catch(err => console.log(err))
     } catch (error) {
-        
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
     }
 }
 
 const storeCategory = async (req, res) => {
     try {
         const {category} = req.body;
+        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", err.message);
         await Category.create({
             category
+        }, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+
+            return res_success(res, 201, "201 Created", "Your was listed a category")
         })
-        res.send("berhasil")
     } catch (error) {
-        res.send(error)
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
     }
 }
 
 const deleteCategoryById = async (req, res) => {
     try {
         let _idCategory = req.params.id;
-        await Category.deleteOne({_id:_idCategory})
-        .then(() => {
-            return res.send("Berhasil hapus")
-        })
-        .catch(() => {
-            return res.send("Salah")
-        })
+        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", err.message);
+        await Category.deleteOne({_id:_idCategory}, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+
+            return res_success(res, 200, "200 OK", "Your was deleted a category")
+        }).clone().catch(err => console.log(err))
     } catch (error) {
-        if(error){
-            return res.send(error.message)
-        }
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
     }
 }
 
 const deleteAllCategories = async (req, res) => {
     try {
-        await Category.deleteMany({})
-        .then(() => {
-            return res.send("Berhasil hapus semua")
-        })
-        .catch(() => {
-            return res.send("Salah")
-        })
+        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", err.message);
+        await Category.deleteMany({}, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+
+            return res_success(res, 200, "200 OK", "Your was deleted all categories")
+        }).clone().catch(err => console.log(err))
     } catch (error) {
-        if(error){
-            return res.send(error.message)
-        }
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
     }
 }
 

@@ -1,16 +1,15 @@
 const Country = require('../../models/users/m_countries');
-const jwt = require('jsonwebtoken');
-const env = require('dotenv');
 const {res_error, res_success} = require('../../response')
-env.config();
 
 const getAllCountries = async (req, res) => {
     try {
         await Country.find({}, (err, result) => {
-            res.json({result})
-        })
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+            
+            return res_success(res, 200, "200 OK", "Datas Contries", result)
+        }).clone().catch(err => console.log(err))
     } catch (error) {
-        
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
     }
 }
 
@@ -18,10 +17,12 @@ const getCountryById = async (req, res) => {
     try {
         const _idCountry = req.params.id;
         await Country.findOne({"_id":_idCountry}, (err, result) => {
-            res.json({result})
-        })
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+            
+            return res_success(res, 200, "200 OK", "Datas Contries", result)
+        }).clone().catch(err => console.log(err))
     } catch (error) {
-        
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
     }
 }
 
@@ -29,56 +30,65 @@ const changeCountryById = async (req, res) => {
     try {
         const _idCountry = req.params.id;
         const {country} = req.body;
-        console
+
+        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", err.message);
+
         await Country.updateOne({"_id":_idCountry}, {$set:{"country":country}}, (err, result) => {
-            res.json("Berhasil Ganti")
-        })
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+
+            return res_success(res, 200, "200 OK", "Country name was changed")
+        }).clone().catch(err => console.log(err))
     } catch (error) {
-        
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
     }
 }
 
 const storeCountry = async (req, res) => {
     try {
         const {country} = req.body;
+
+        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) return res_error(res, 403, "403 Forbidden", err.message);
         await Country.create({
             country
+        }, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+
+            return res_success(res, 201, "201 Created", "Your was listed a country")
         })
-        res.send("berhasil")
     } catch (error) {
-        res.send(error)
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
     }
 }
 
 const deleteCountryById = async (req, res) => {
     try {
         let _idCountry = req.params.id;
-        await Country.deleteOne({_id:_idCountry})
-        .then(() => {
-            return res.send("Berhasil hapus")
-        })
-        .catch(() => {
-            return res.send("Salah")
-        })
+
+        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", err.message);
+
+        await Country.deleteOne({_id:_idCountry}, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+
+            return res_success(res, 200, "200 OK", "Your was deleted a country")
+        }).clone().catch(err => console.log(err))
     } catch (error) {
         if(error){
-            return res.send(error.message)
+            if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
         }
     }
 }
 
 const deleteAllcounties = async (req, res) => {
     try {
-        await Country.deleteMany({})
-        .then(() => {
-            return res.send("Berhasil hapus semua")
-        })
-        .catch(() => {
-            return res.send("Salah")
-        })
+        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", err.message);
+        await Country.deleteMany({}, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+
+            return res_success(res, 200, "200 OK", "Your was deleted all countries")
+        }).clone().catch(err => console.log(err))
     } catch (error) {
         if(error){
-            return res.send(error.message)
+            if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
         }
     }
 }

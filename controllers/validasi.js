@@ -1,7 +1,7 @@
 const env = require('dotenv');
 const jwt = require('jsonwebtoken');
 env.config();
-const {res_error, res_success} = require('./../response')
+const {res_error} = require('./../response')
 
 let auth = null;
 let token = null;

@@ -1,6 +1,5 @@
 const Like = require('../../models/articles/m_likes');
 const {res_error, res_success} = require('../../response')
-const {auth, token, user} = require('../validasi')
 
 const getLikeById = async (req, res) => {
     

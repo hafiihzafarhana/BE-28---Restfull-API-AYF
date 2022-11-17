@@ -1,6 +1,5 @@
 const Comment = require('../../models/articles/m_comments');
 const {res_error, res_success} = require('../../response')
-const {auth, token, user} = require('../validasi')
 
 const getCommentById = async (req, res) => {
     
