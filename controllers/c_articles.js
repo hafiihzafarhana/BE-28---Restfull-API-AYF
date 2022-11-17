@@ -1,24 +1,6 @@
 const Article = require('./../models/articles/m_articles');
-const jwt = require('jsonwebtoken');
-const env = require('dotenv');
 const {res_error, res_success} = require('./../response')
-env.config();
-
-let auth = null;
-let token = null;
-let user = null;
-
-const checkJWT = (req, res, next) => {
-    try {
-        auth = req.headers.authorization;
-        token = auth.split(" ")[1];
-        user = jwt.verify(token, process.env.CODE_JWT);
-        if(!user) res_error(res, 403, "403 Forbidden", "You haven't been authenticated and authorized")
-        next()
-    } catch (error) {
-        if(error) res_error(res, 500, "500 Internal Server Error", "There is an error from the server side")
-    }
-}
+const {auth, token, user} = require('./validasi')
 
 const getAllArticles = async (req, res) => {
     // nanti kamu benahi, aku cuman ngecheck jwt nya bisa apa enggak
@@ -50,7 +32,10 @@ const commentArticleById = async (req, res) => {
 const storeArticle = async (req, res) => {
         // nanti kamu benahi, aku cuman ngecheck jwt nya bisa apa enggak
         try {
-            
+            const {author, title, image, likes, content, slug, comments, category} = req.body
+            Article.create({author, title, image, likes, content, slug, comments, category})
+            .then(() => res.send("Berhasil ditambahkan"))
+            .catch(() => res.send("gagal ditambahkan"))
         } catch (error) {
             if(error){
                 res.send("kesalahan server")
@@ -66,4 +51,4 @@ const deleteAllArticle = async (req, res) => {
     
 }
 
-module.exports = {getAllArticles, getArticleById, likedArticleById, changeArticleById, commentArticleById, storeArticle, deleteArticleById, deleteAllArticle, checkJWT}
+module.exports = {getAllArticles, getArticleById, likedArticleById, changeArticleById, commentArticleById, storeArticle, deleteArticleById, deleteAllArticle}
