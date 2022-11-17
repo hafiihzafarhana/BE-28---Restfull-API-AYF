@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const {getAllArticles, getArticleById, likedArticleById, changeArticleById, commentArticleById, storeArticle, deleteArticleById, deleteAllArticle, checkJWT} = require('./../controllers/c_articles')
-
+const {getAllArticles, getArticleById, likedArticleById, changeArticleById, commentArticleById, storeArticle, deleteArticleById, deleteAllArticle} = require('./../controllers/c_articles')
+// const {checkJWT} = require('./../controllers/validasi')
 
 router.get("/", getAllArticles);
 router.get("/:id", getArticleById);
 
-router.use(checkJWT);
+// router.use(checkJWT);
 router.put("/:id/like", likedArticleById);
 router.put("/:id", changeArticleById);
 router.post("/:id/comment", commentArticleById);
