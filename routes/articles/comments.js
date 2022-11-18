@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const {getCommentById, storeCommentById, deleteCommentById} = require('../../controllers/articles/c_comments')
+const {getCommentByIdArticle, storeCommentById, deleteCommentById} = require('../../controllers/articles/c_comments')
 const {checkJWT} = require('./../../controllers/validasi')
 
-router.get("/:id", getCommentById);
+router.get("/:id", getCommentByIdArticle);
 
 router.use(checkJWT);
 router.post("/:id", storeCommentById);

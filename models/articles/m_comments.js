@@ -5,11 +5,14 @@ const CommentSchema = mongoose.Schema({
         type:String,
         minLength:[1, 'Must be at least 1 character']
     },
-    name:{
+    user:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
-        required:true
+        ref:"User"
      },
+    article:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Article"
+    },
     createdAt:{
         type: Date,
         default: new Date(),
