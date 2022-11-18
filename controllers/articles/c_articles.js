@@ -4,20 +4,42 @@ const {res_error, res_success} = require('../../response')
 const getAllArticles = async (req, res) => {
     // nanti kamu benahi, aku cuman ngecheck jwt nya bisa apa enggak
     try {
-        res.send("sukses")
+        await Article.find({}, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+            
+            return res_success(res, 200, "200 OK", "Data Articles", result)
+        }).clone().catch(err => console.log(err))
     } catch (error) {
-        if(error){
-            res.send("Gagal")
-        }
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
     }
 }
 
 const getArticleById = async (req, res) => {
-    
+    try {
+        const _idArticle = req.params.id;
+        await Article.findOne({"_id":_idArticle}, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+            
+            return res_success(res, 200, "200 OK", "Data Articles", result)
+        }).clone().catch(err => console.log(err))
+    } catch (error) {
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
+    }
 }
 
 const changeArticleById = async (req, res) => {
-    
+    try {
+        const _idArticle = req.params.id;
+        const {title} = req.body;
+
+        await Article.updateOne({"_id":_idArticle}, {$set:{"title":title}}, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+
+            return res_success(res, 200, "200 OK", "Articles name was changed")
+        }).clone().catch(err => console.log(err))
+    } catch (error) {
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
+    }
 }
 
 const storeArticle = async (req, res) => {
