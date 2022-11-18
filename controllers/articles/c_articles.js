@@ -57,10 +57,29 @@ const storeArticle = async (req, res) => {
 }
 
 const deleteArticleById = async (req, res) => {
+    try {
+        let _idArticle = req.params.id;
+        await Article.deleteOne({_id:_idArticle}, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+
+            return res_success(res, 200, "200 OK", "Your was deleted a article")
+        }).clone().catch(err => console.log(err))
+    } catch (error) {
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
+    }
     
 }
 
 const deleteAllArticle = async (req, res) => {
+    try {
+        await Article.deleteMany({}, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+
+            return res_success(res, 200, "200 OK", "Your was deleted all articles")
+        }).clone().catch(err => console.log(err))
+    } catch (error) {
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
+    }
     
 }
 
