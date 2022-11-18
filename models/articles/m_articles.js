@@ -14,12 +14,6 @@ const ArticleSchema = mongoose.Schema({
         type:String,
         default:""
      },
-   //   likes:[{
-   //      _idUser:{
-   //          type:mongoose.Schema.Types.ObjectId,
-   //          ref:"User"
-   //      }
-   //   }],
      content:{
         type:String,
         minLength:[20, 'Must be at least 20 character']
@@ -28,16 +22,6 @@ const ArticleSchema = mongoose.Schema({
         type:String,
         required:true
      },
-   //   comments:[{
-   //      _idUser:{
-   //          type:mongoose.Schema.Types.ObjectId,
-   //          ref:"User"
-   //      },
-   //      msg:{
-   //          type:String,
-   //          minLength:[1, 'Must be at least 1 character']
-   //      }
-   //   }],
      category:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Category"
@@ -48,6 +32,6 @@ const ArticleSchema = mongoose.Schema({
   }
 });
 
-const Article = mongoose.model('Articles', ArticleSchema);
+const Article = mongoose.model('Article', ArticleSchema);
 
 module.exports = Article;

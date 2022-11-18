@@ -1,11 +1,16 @@
 const { default: mongoose } = require("mongoose");
 
 const LikeSchema = mongoose.Schema({
-    name:{
+    user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",
         required:true
-     },
+    },
+    article:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Article",
+        required:true
+    },
     createdAt:{
         type: Date,
         default: new Date(),
