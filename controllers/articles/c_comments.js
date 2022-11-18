@@ -37,9 +37,10 @@ const storeCommentById = async (req, res) => {
 
 const deleteCommentById = async (req, res) => {
     try {
-        const _idArticle = req.params.idComment
+        const _idArticle = req.params.id
         const {_id, user} = req.body
-        if(req.user.user._id != user) res_error(res, 403, "403 Forbidden", err.message)
+
+        if(!_idArticle || req.user.user._id != user) res_error(res, 403, "403 Forbidden", err.message)
 
         await Comment.deleteOne({"_id":_id}, {"user":user, "article":_idArticle}, (err, result) => {
             if(err) return res_error(res, 400, "400 Bad Request", err.message)
