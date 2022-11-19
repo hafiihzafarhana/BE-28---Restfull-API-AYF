@@ -6,9 +6,9 @@ const getCommentByIdArticle = async (req, res) => {
         const _idArticle = req.params.id
 
         await Comment.find({"article":_idArticle}, (err, result) => {
-            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+            if(err) return res_error(res, 400, "400 Bad Request", "Request error by client so that it cannot get all comments by ID of article")
             
-            return res_success(res, 200, "200 OK", `Datas Comments in id:${_idArticle}`, result)
+            return res_success(res, 200, "200 OK", `Get data comments in article with id : ${_idArticle}`, result)
         }).clone().catch(err => console.log(err))
 
     } catch (error) {
@@ -21,12 +21,12 @@ const storeCommentById = async (req, res) => {
         const {comment} = req.body
         const _idArticle = req.params.id
 
-        if(!_idArticle) res_error(res, 403, "403 Forbidden", err.message)
+        if(!_idArticle) res_error(res, 403, "403 Forbidden", "You're not an authenticated, authorized user")
 
         await Comment.create({comment, article:_idArticle, user:req.user.user._id}, (err, result) => {
-            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+            if(err) return res_error(res, 400, "400 Bad Request", "Request error by client so that it cannot store comment by ID of article")
 
-            return res_success(res, 201, "201 Created", "Your was commented the article")
+            return res_success(res, 201, "201 Created", `You was commented the article with id : ${_idArticle}`)
         })
 
     } catch (error) {
@@ -40,12 +40,12 @@ const deleteCommentById = async (req, res) => {
         const _idArticle = req.params.id
         const {_id, user} = req.body
 
-        if(!_idArticle || req.user.user._id != user) res_error(res, 403, "403 Forbidden", err.message)
+        if(!_idArticle || req.user.user._id != user) res_error(res, 403, "403 Forbidden", "You're not an authenticated, authorized user")
 
         await Comment.deleteOne({"_id":_id}, {"user":user, "article":_idArticle}, (err, result) => {
-            if(err) return res_error(res, 400, "400 Bad Request", err.message)
+            if(err) return res_error(res, 400, "400 Bad Request", "Request error by client so that it cannot delete comment by ID of article and user")
 
-            return res_success(res, 200, "200 OK", "Your was deleted your comment")
+            return res_success(res, 200, "200 OK", `You was deleted your comment in the article with id ${_idArticle}`)
         }).clone().catch(err => console.log(err))
 
     } catch (error) {
