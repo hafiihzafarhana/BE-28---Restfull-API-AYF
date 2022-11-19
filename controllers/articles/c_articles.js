@@ -1,6 +1,8 @@
 const Article = require('../../models/articles/m_articles');
 const Like = require('../../models/articles/m_likes');
 const Comment = require('../../models/articles/m_comments');
+const env = require('dotenv');
+env.config();
 
 const {res_error, res_success} = require('../../response')
 
@@ -34,7 +36,7 @@ const changeArticleById = async (req, res) => {
         const _idArticle = req.params.id;
         const {title} = req.body;
 
-        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't change the article (Admin)");
+        if(req.user.user.role != process.env.ADMIN || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't change the article by id (Admin)");
 
         await Article.updateOne({"_id":_idArticle}, {$set:{"title":title}}, (err, result) => {
             if(err) return res_error(res, 400, "400 Bad Request", "Request error by client so that it cannot change article by ID")
@@ -49,7 +51,7 @@ const changeArticleById = async (req, res) => {
 const storeArticle = async (req, res) => {
         try {
             const {author, title, image, likes, content, slug, comments, category} = req.body
-            if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't change the article (Admin)");
+            if(req.user.user.role != process.env.ADMIN || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't store the article (Admin)");
             Article.create({author, title, image, likes, content, slug, comments, category}, (err, result) => {
                 if(err) return res_error(res, 400, "400 Bad Request", "Request error by client so that it cannot store article")
     
@@ -64,7 +66,7 @@ const deleteArticleById = async (req, res) => {
     try {
         let _idArticle = req.params.id;
 
-        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't change the article (Admin)");
+        if(req.user.user.role != process.env.ADMIN || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't delete article by id (Admin)");
 
         await Like.deleteMany({"article":_idArticle});
         await Comment.deleteMany({"user":_idArticle});
@@ -85,7 +87,7 @@ const deleteArticleById = async (req, res) => {
 const deleteAllArticle = async (req, res) => {
     try {
 
-        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't change the article (Admin)");
+        if(req.user.user.role != process.env.ADMIN || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't delete all articles (Admin)");
         await Like.deleteMany({});
         await Comment.deleteMany({});
         await Article.deleteMany({}, (err, result) => {
