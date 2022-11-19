@@ -1,5 +1,7 @@
 const Category = require('../../models/articles/m_categories');
 const {res_error, res_success} = require('../../response')
+const env = require('dotenv');
+env.config();
 
 const getAllCategories = async (req, res) => {
     try {
@@ -30,7 +32,7 @@ const changeCategoryById = async (req, res) => {
     try {
         const _idCategory = req.params.id;
         const {category} = req.body;
-        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't change the article (Admin)");
+        if(req.user.user.role != process.env.ADMIN || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't change the category by id (Admin)");
         await Category.updateOne({"_id":_idCategory}, {$set:{"category":category}}, (err, result) => {
             if(err) return res_error(res, 400, "400 Bad Request", "Request error by client so that it cannot change category by ID")
 
@@ -44,7 +46,7 @@ const changeCategoryById = async (req, res) => {
 const storeCategory = async (req, res) => {
     try {
         const {category} = req.body;
-        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't change the article (Admin)");
+        if(req.user.user.role != process.env.ADMIN || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't store the category (Admin)");
         await Category.create({
             category
         }, (err, result) => {
@@ -60,7 +62,7 @@ const storeCategory = async (req, res) => {
 const deleteCategoryById = async (req, res) => {
     try {
         let _idCategory = req.params.id;
-        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't change the article (Admin)");
+        if(req.user.user.role != process.env.ADMIN || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't delete the category by id (Admin)");
         await Category.deleteOne({_id:_idCategory}, (err, result) => {
             if(err) return res_error(res, 400, "400 Bad Request", "Request error by client so that it cannot delete category by ID")
 
@@ -73,7 +75,7 @@ const deleteCategoryById = async (req, res) => {
 
 const deleteAllCategories = async (req, res) => {
     try {
-        if(req.user.user.role != "63768bc8eceebff9eda8e878" || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't change the article (Admin)");
+        if(req.user.user.role != process.env.ADMIN || req.user.user.role == null) res_error(res, 403, "403 Forbidden", "Unauthenticated error and incorrect address so can't delete all categories (Admin)");
         await Category.deleteMany({}, (err, result) => {
             if(err) return res_error(res, 400, "400 Bad Request", "Request error by client so that it cannot delete all categories")
 

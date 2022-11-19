@@ -1,5 +1,7 @@
 const Comment = require('../../models/articles/m_comments');
 const {res_error, res_success} = require('../../response')
+const env = require('dotenv');
+env.config();
 
 const getCommentByIdArticle = async (req, res) => {
     try {
