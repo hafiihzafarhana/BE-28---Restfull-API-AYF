@@ -1,5 +1,8 @@
 # BE-28---Restfull-API-AYF
 
+# ERD
+https://drive.google.com/file/d/1kBwKWuzIM_g5OmA_Anrs9YHcdfjhTJKC/view?usp=share_link
+
 # API Specification
 
 - ## User Model
