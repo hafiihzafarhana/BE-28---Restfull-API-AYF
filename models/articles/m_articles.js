@@ -32,6 +32,8 @@ const ArticleSchema = mongoose.Schema({
   }
 });
 
+ArticleSchema.index({title:'text'})
+
 const Article = mongoose.model('Article', ArticleSchema);
 
 module.exports = Article;
