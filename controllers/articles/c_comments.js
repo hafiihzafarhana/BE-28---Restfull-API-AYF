@@ -11,7 +11,7 @@ const getCommentByIdArticle = async (req, res) => {
             if(err) return res_error(res, 400, "400 Bad Request", "Request error by client so that it cannot get all comments by ID of article")
             
             return res_success(res, 200, "200 OK", `Get data comments in article with id : ${_idArticle}`, result)
-        }).clone().catch(err => console.log(err))
+        }).populate('user article', 'username title').clone().catch(err => console.log(err))
 
     } catch (error) {
         if(error) return res_error(res, 500, "500 Internal Server Error",error.message)

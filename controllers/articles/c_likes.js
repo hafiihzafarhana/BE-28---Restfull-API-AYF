@@ -8,7 +8,7 @@ const getLikeByIdArticle = async (req, res) => {
             if(err) return res_error(res, 400, "400 Bad Request", err.message)
             
             return res_success(res, 200, "200 OK", `Datas Likes in id:${_idArticle}`, result)
-        }).clone().catch(err => console.log(err))
+        }).populate('user article', 'username title').clone().catch(err => console.log(err))
     } catch (error) {
         if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
     }
