@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const {getAllArticles, getArticleById, changeArticleById, storeArticle, deleteArticleById, deleteAllArticle} = require('../../controllers/articles/c_articles')
+const {getAllArticles, getArticleById, changeArticleById, storeArticle, deleteArticleById, deleteAllArticle, searchingArticles} = require('../../controllers/articles/c_articles')
 const {checkJWT} = require('./../../controllers/validasi')
 
 router.get("/", getAllArticles);
+router.get("/search", searchingArticles);
 router.get("/:id", getArticleById);
 
 router.use(checkJWT);

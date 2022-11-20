@@ -18,6 +18,19 @@ const getAllArticles = async (req, res) => {
     }
 }
 
+const searchingArticles = async (req, res) => {
+    try {
+        const uri = req.query.title
+        await Article.find({$text:{$search:uri}}, (err, result) => {
+            if(err) return res_error(res, 400, "400 Bad Request", "Request error by client so that it cannot searching article")
+        
+            return res_success(res, 200, `200 OK", "Get data article by searching ${uri}`, result)
+        }).clone().catch(err => console.log(err))
+    } catch (error) {
+        if(error) return res_error(res, 500, "500 Internal Server Error",error.message)
+    }
+}
+
 const getArticleById = async (req, res) => {
     try {
         const _idArticle = req.params.id;
@@ -101,4 +114,4 @@ const deleteAllArticle = async (req, res) => {
     
 }
 
-module.exports = {getAllArticles, getArticleById, changeArticleById, storeArticle, deleteArticleById, deleteAllArticle}
+module.exports = {getAllArticles, getArticleById, changeArticleById, storeArticle, deleteArticleById, deleteAllArticle, searchingArticles}
